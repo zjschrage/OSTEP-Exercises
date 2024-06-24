@@ -4,29 +4,40 @@
 #include <string.h>
 #include <sys/wait.h>
 
+#define BUFFER_SIZE 256
+#define ZPRINTF(fmt, ...)                           \
+    do {                                            \
+        char outputBuffer[BUFFER_SIZE];             \
+        sprintf(outputBuffer, fmt, ##__VA_ARGS__);  \
+        if (!supressOutput)                         \
+            printf("%s", outputBuffer);             \
+    } while (0)
+
 typedef void (*Action)(void);
 
-void zackFork(Action child, Action parent)
+static int supressOutput = 0;
+
+static void zackFork(Action child, Action parent)
 {
-    printf("PID: %d\n", (int)getpid());
+    ZPRINTF("PID: %d\n", (int)getpid());
     int rc = fork();  
 
     if (rc < 0)
     {
-        printf("Fork failed\n");
+        perror("Fork failed");
     }
     else if (rc == 0)
     {
-        printf("Child process %d!\n", (int)getpid());
+        ZPRINTF("Child process %d!\n", (int)getpid());
         if (child != NULL)
             child();
-        printf("Child process terminated\n");
+        ZPRINTF("Child process terminated\n");
     }
     else
     {
-        printf("Parent process %d! Child PID: %d\n", (int)getpid(), rc);
+        ZPRINTF("Parent process %d! Child PID: %d\n", (int)getpid(), rc);
         if (parent != NULL)
             parent();
-        printf("Parent process terminated\n");
+        ZPRINTF("Parent process terminated\n");
     }
 }
