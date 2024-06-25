@@ -5,19 +5,19 @@
 #include <sys/wait.h>
 
 #define BUFFER_SIZE 256
-#define ZPRINTF(fmt, ...)                           \
-    do {                                            \
-        char outputBuffer[BUFFER_SIZE];             \
-        sprintf(outputBuffer, fmt, ##__VA_ARGS__);  \
-        if (!supressOutput)                         \
-            printf("%s", outputBuffer);             \
+#define ZPRINTF(fmt, ...)                            \
+    do {                                             \
+        char output_buffer[BUFFER_SIZE];             \
+        sprintf(output_buffer, fmt, ##__VA_ARGS__);  \
+        if (!supress_output)                         \
+            printf("%s", output_buffer);             \
     } while (0)
 
 typedef void (*Action)(void);
 
-static int supressOutput = 0;
+static int supress_output = 0;
 
-static void zackFork(Action child, Action parent)
+static void zfork(Action child, Action parent)
 {
     ZPRINTF("PID: %d\n", (int)getpid());
     int rc = fork();  

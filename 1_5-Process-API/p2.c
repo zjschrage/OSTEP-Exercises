@@ -10,10 +10,10 @@
     same time?
 */
 
-static int parentWaits = 0;
-static const char* testFile = "./static/file.txt";
+static int parent_waits = 0;
+static const char* test_file = "./static/file.txt";
 
-int openFile(const char* path)
+int open_file(const char* path)
 {
     int fd = open(path, O_RDWR | O_APPEND | O_CREAT, S_IRWXU);
     if (fd < 0)
@@ -26,7 +26,7 @@ int openFile(const char* path)
     return fd;
 }
 
-void closeFile(int fd)
+void close_file(int fd)
 {
     if (close(fd) < 0)
     {
@@ -37,37 +37,37 @@ void closeFile(int fd)
     printf("Closed File Descriptor.\n");
 }
 
-void childFunction()
+void child_function()
 {
-    int fd = openFile(testFile);
+    int fd = open_file(test_file);
     write(fd, "child", 5);
     sleep(1);
-    closeFile(fd);
+    close_file(fd);
 }
 
-void parentFunction()
+void parent_function()
 {
-    if (parentWaits)
+    if (parent_waits)
     {
         wait(NULL);
         printf("Parent finished waiting for child\n");
     }
 
-    int fd = openFile(testFile);
+    int fd = open_file(test_file);
     write(fd, "PARENT", 6);
     sleep(1);
-    closeFile(fd);
+    close_file(fd);
 }
 
-void handleInput(int argc, char* argv[])
+void handle_input(int argc, char* argv[])
 {
     if (argc > 1)
-        parentWaits = 1;
+        parent_waits = 1;
 }
 
 int main(int argc, char* argv[])
 {
-    handleInput(argc, argv);
-    zackFork(&childFunction, &parentFunction);
+    handle_input(argc, argv);
+    zfork(&child_function, &parent_function);
     return 0;
 }
