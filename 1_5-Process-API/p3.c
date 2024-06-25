@@ -15,6 +15,7 @@ static const char childTerminateChar[] = "T";
 void childFunction()
 {
     printf("hello");
+    fflush(stdout);
     int fd = open(childStatusFile, O_RDWR | O_APPEND | O_CREAT, S_IRWXU);
     if (fd < 0)
     {
