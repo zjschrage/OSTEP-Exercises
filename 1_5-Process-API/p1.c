@@ -10,7 +10,8 @@
 
 static int x = 100;
 
-void xManipulator(int* x, int add) {
+void xManipulator(int* x, int add)
+{
     int old = *x;
     *x += add;
     printf("Incremented x from (%d) to (%d)\n", old, *x);

@@ -16,7 +16,8 @@ static const char* testFile = "./static/file.txt";
 int openFile(const char* path)
 {
     int fd = open(path, O_RDWR | O_APPEND | O_CREAT, S_IRWXU);
-    if (fd < 0) {
+    if (fd < 0)
+    {
         printf("Error Opening File %s\n", path);
         perror("Error:");
         exit(1);
@@ -27,7 +28,8 @@ int openFile(const char* path)
 
 void closeFile(int fd)
 {
-    if (close(fd) < 0) {
+    if (close(fd) < 0)
+    {
         printf("Error Closing File Descriptor %d\n", fd);
         perror("Error:");
         exit(1);
@@ -45,7 +47,8 @@ void childFunction()
 
 void parentFunction()
 {
-    if (parentWaits) {
+    if (parentWaits)
+    {
         wait(NULL);
         printf("Parent finished waiting for child\n");
     }
