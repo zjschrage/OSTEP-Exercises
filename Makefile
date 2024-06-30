@@ -19,6 +19,7 @@ $(SUBDIR)/bin:
 # Clean up the bin directory
 clean:
 	rm -rf $(SUBDIR)/bin
+	rm -rf $(SUBDIR)/static/*
 
 # Phony targets
 .PHONY: all clean
