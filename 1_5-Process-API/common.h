@@ -19,8 +19,8 @@ static int supress_output = 0;
 
 static void zfork(Action child, Action parent)
 {
-    ZPRINTF("PID: %d\n", (int)getpid());
-    int rc = fork();  
+    ZPRINTF("PID: %d\n", (pid_t)getpid());
+    pid_t rc = fork();  
 
     if (rc < 0)
     {
@@ -28,14 +28,14 @@ static void zfork(Action child, Action parent)
     }
     else if (rc == 0)
     {
-        ZPRINTF("Child process %d!\n", (int)getpid());
+        ZPRINTF("Child process %d!\n", (pid_t)getpid());
         if (child != NULL)
             child();
         ZPRINTF("Child process terminated\n");
     }
     else
     {
-        ZPRINTF("Parent process %d! Child PID: %d\n", (int)getpid(), rc);
+        ZPRINTF("Parent process %d! Child PID: %d\n", (pid_t)getpid(), rc);
         if (parent != NULL)
             parent();
         ZPRINTF("Parent process terminated\n");
